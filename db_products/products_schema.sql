@@ -8,7 +8,8 @@ CREATE TABLE product_info (
   type TEXT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   slogan TINYTEXT,
-  description TEXT
+  description TEXT,
+  FOREIGN KEY (related_id) REFERENCES related(related_id)
 )
 
 CREATE TABLE styles (
@@ -46,3 +47,8 @@ CREATE TABLE photos (
   FOREIGN KEY (style_id) REFERENCES styles(style_id)
 )
 
+-- CREATE TABLE related (
+--   related_id INT AUTO_INCREMENT NOT NULL primary key,
+--   FOREIGN KEY (product_id) REFERENCES product_info(product_id),
+--   related_items
+-- )
