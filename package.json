@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start": "nodemon server.index.js",
-    "react-dev": "webpack --config ./webpack.config.js --mode development -w"
+    "react-dev": "webpack --config ./webpack.config.js --mode development -w",
+    "create-db": "psql sdc_products -U sueannkim < ./db_products/products_schema.sql"
   },
   "repository": {
     "type": "git",
@@ -21,16 +22,20 @@
   "homepage": "https://github.com/KimFungDamoney-SDC/Database#readme",
   "dependencies": {
     "axios": "0.21.1",
+    "body-parser": "^1.19.0",
     "cors": "2.8.5",
+    "csv-parser": "^3.0.0",
     "express": "4.17.1",
+    "fast-csv": "^4.3.6",
     "jest": "26.6.3",
     "mongodb": "3.6.6",
     "morgan": "1.10.0",
     "mysql": "2.18.1",
     "mysql2": "2.2.5",
     "nodemon": "2.0.7",
-    "path": "0.12.7",
-    "postgres": "^1.0.2",
+    "path": "^0.12.7",
+    "pg": "^8.6.0",
+    "pg-copy-streams": "^5.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
