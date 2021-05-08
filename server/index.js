@@ -6,6 +6,8 @@ const path = require('path');
 const { Pool, Client, Query } = require('pg');
 const copyFrom = require('pg-copy-streams').from;
 const csv = require('csv-parser');
+// const productRoutes = require('./productRoutes.js');
+const router = require('express').Router();
 
 const tables = [
   {
@@ -103,4 +105,25 @@ const executeQuery = (tables) => {
   })
 }
 
-executeQuery(tables);
+
+//executeQuery(tables);
+app.get('/products', (req, response) => {
+  let page = req.query.page || 1;
+  let count = req.query.count || 5;
+
+  const offset = (page - 1) * count;
+  const offsetStr = offset ? `OFFSET ${offset}` : '' ;
+  console.log(`${offsetStr}`);
+  client.query(`SELECT * from product LIMIT ${count} ${offsetStr}`, (err, res) => {
+    if (err) console.log(err);
+    response.send(res.rows);
+  })
+});
+// app.get('/products/:product_id', );
+// app.get('/products/:product_id/styles');
+// app.get('/products/:product_id/related');
+
+// router.route('/cart')
+//   .get() //200 ok
+//   .post(); //201 created sku_id: qty
+
