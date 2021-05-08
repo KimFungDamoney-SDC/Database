@@ -1,2 +1,8 @@
 node_modules
 .DS_Store
+config.json
+reviews.csv
+product.csv
+reviews_photos.csv
+characteristics.csv
+characteristic_reviews.csv
