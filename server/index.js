@@ -119,8 +119,23 @@ app.get('/products', (req, response) => {
     response.send(res.rows);
   })
 });
-// app.get('/products/:product_id', );
-// app.get('/products/:product_id/styles');
+app.get('/products/:product_id', (req, res) => {
+  let {product_id} = req.params;
+
+  client.query(`SELECT * from product WHERE id = ${product_id}`, (err, result) => {
+    if (err) console.log(err);
+    res.send(result.rows);
+  })
+  //select json_build_object('feature', f.feature, 'value', f.value) from feature f WHERE product_id = 1;
+});
+app.get('/products/:product_id/styles', (req, res) => {
+  let {product_id} = req.params;
+
+  client.query(`SELECT * from styles WHERE product_id = ${product_id}`, (err, result) => {
+    if (err) res.send(err);
+    res.send(result.rows);
+  })
+});
 // app.get('/products/:product_id/related');
 
 // router.route('/cart')
