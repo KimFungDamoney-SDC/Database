@@ -2,7 +2,7 @@ const router = require('express').Router();
 const controllers = require('./controllers.js');
 
 router
-  .route('/reviews')
+  .route('/reviews/:id')
   .get(controllers.getAllReviews)
   .post(controllers.postReviews)
 

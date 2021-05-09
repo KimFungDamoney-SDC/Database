@@ -1,16 +1,13 @@
 DROP DATABASE IF EXISTS sdcreviews;
 
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS reviews;
-DROP TABLE IF EXISTS characteristics;
-DROP TABLE IF EXISTS metaData;
-DROP TABLE IF EXISTS metaDataRatings;
-DROP TABLE IF EXISTS photos;
-DROP TABLE IF EXISTS recommend;
 
 CREATE DATABASE sdcreviews;
 
 \c sdcreviews
+
+DROP TABLE IF EXISTS reviews;
+
+CREATE SEQUENCE reviews_sequence;
 
 CREATE TABLE reviews (
   id SERIAL NOT NULL PRIMARY KEY,
@@ -27,18 +24,30 @@ CREATE TABLE reviews (
   helpfulness INTEGER DEFAULT NULL
 );
 
+DROP TABLE IF EXISTS photos;
+
+CREATE SEQUENCE photos_sequence;
+
 CREATE TABLE photos (
   id SERIAL NOT NULL PRIMARY KEY,
   review_id INTEGER,
   url TEXT
 );
 
-CREATE TABLE characteristic_reviews (
+DROP TABLE IF EXISTS metadata;
+
+CREATE SEQUENCE metadata_sequence;
+
+CREATE TABLE metadata (
   id SERIAL NOT NULL PRIMARY KEY,
   product_id INTEGER,
   review_id INTEGER,
   value INTEGER
 );
+
+DROP TABLE IF EXISTS characteristics;
+
+CREATE SEQUENCE characteristics_sequence;
 
 CREATE TABLE characteristics (
   id SERIAL NOT NULL PRIMARY KEY,

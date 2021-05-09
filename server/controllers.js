@@ -6,8 +6,10 @@ const controllers = {
     const queryString = `SELECT *
                          FROM reviews
                          INNER JOIN photos
-                         ON reviews.id = photos.review_id
+                         ON reviews.id=photos.review_id
+                         WHERE product_id=${req.params.id}
                          LIMIT 10`
+
     client.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
@@ -20,8 +22,8 @@ const controllers = {
   getMetaReviews: (req, res) => {
     const queryString = `SELECT *
                          FROM characteristics
-                         INNER JOIN characteristic_reviews
-                         ON characteristics.product_id = characteristic_reviews.product_id
+                         INNER JOIN metadata
+                         ON characteristics.product_id = metadata.product_id
                          LIMIT 10`
     client.query(queryString, (err, results) => {
       if (err) {
@@ -33,16 +35,15 @@ const controllers = {
   },
 
   postReviews: (req, res) => {
-    let { product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics } = req.body;
-    const queryString = `INSERT INTO reviews
-                        (product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics),
-                         VALUES (${product_id}, ${rating}, '${summary}', '${body}', '${recommend}', '${reviewer_name}', '${reviewer_email}',      '${photos}' ${characteristics})`
-                         console.log(req.body)
+    console.log(req.body)
+    let { product_id, rating, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness } = req.body;
+    const queryString = `INSERT INTO reviews (product_id, rating, summary, body, recommend, reported,reviewer_name, reviewer_email, response, helpfulness)
+                         VALUES (${product_id}, ${rating}, '${summary}', '${body}', ${recommend}, ${reported}, '${reviewer_name}', '${reviewer_email}', '${response}', ${helpfulness})`
     client.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err)
       } else {
-        res.status(200).send(results)
+        res.status(200).send(results.rows)
       }
     });
   },
