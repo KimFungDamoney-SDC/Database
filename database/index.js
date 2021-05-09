@@ -46,7 +46,7 @@ const executeQuery = (tables) => {
   tables.forEach((table, index) => {
     execute(table, (err) => {
       if (err) return console.log(`Error in Truncate Table: ${err}`);
-      var stream = client.query(copyFrom(`COPY ${table} FROM STDIN CSV HEADER DELIMITER ','`));
+      var stream = client.query(copyFrom(`COPY ${table} FROM STDIN CSV HEADER`));
       var fileStream = fs.createReadStream(dataArray[index]);
 
       fileStream.on('error', (error) => {

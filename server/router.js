@@ -7,15 +7,15 @@ router
   .post(controllers.postReviews)
 
 router
-  .route('/reviews/meta')
+  .route('/reviewsmeta/:id')
   .get(controllers.getMetaReviews)
 
 router
-  .route('/reviews/:review_id/helpful')
+  .route('/reviews/helpful/:review_id')
   .put(controllers.updateHelpfulness)
 
 router
-  .route('/reviews/:review_id/report')
+  .route('/reviews/report/:review_id')
   .put(controllers.updateReport)
 
 module.exports = router;

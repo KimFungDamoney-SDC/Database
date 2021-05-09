@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS reviews;
 CREATE SEQUENCE reviews_sequence;
 
 CREATE TABLE reviews (
-  id SERIAL NOT NULL PRIMARY KEY,
+  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   product_id INTEGER DEFAULT NULL,
   rating INTEGER DEFAULT NULL,
   created_at TIMESTAMP DEFAULT NULL,
@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS photos;
 CREATE SEQUENCE photos_sequence;
 
 CREATE TABLE photos (
-  id SERIAL NOT NULL PRIMARY KEY,
+  id BIGSERIAL NOT NULL PRIMARY KEY,
   review_id INTEGER,
   url TEXT
 );
@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS metadata;
 CREATE SEQUENCE metadata_sequence;
 
 CREATE TABLE metadata (
-  id SERIAL NOT NULL PRIMARY KEY,
+  id BIGSERIAL NOT NULL PRIMARY KEY,
   product_id INTEGER,
   review_id INTEGER,
   value INTEGER
@@ -50,7 +50,9 @@ DROP TABLE IF EXISTS characteristics;
 CREATE SEQUENCE characteristics_sequence;
 
 CREATE TABLE characteristics (
-  id SERIAL NOT NULL PRIMARY KEY,
+  id BIGSERIAL NOT NULL PRIMARY KEY,
   product_id INTEGER,
   name TEXT
 );
+
+ALTER SEQUENCE reviews_sequence OWNED BY reviews.id
