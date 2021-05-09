@@ -2,20 +2,25 @@ const router = require('express').Router();
 const controllers = require('./controllers.js');
 
 router
-  .route('/questions/:id')
+  .route('/questions/:product_id')
   .get(controllers.getQuestions)
-  .post(controllers.postQuestions)
-//   .put(controllers.helpfulQuestion)
+  .post(controllers.postQuestion)
 
-// router
-//   .route('/answers')
-//   .get(controllers.getAnswers)
-//   .post(controllers.postAnswer)
-//   .put(controllers.helpfulAnswer)
+router
+  .route('/questions/helpful/:question_id')
+  .put(controllers.helpfulQuestion)
 
-// router
-//   .route('/answers/:id')
-//   .put(controllers.reportAnswer)
+router
+  .route('/answers/:question_id')
+  .get(controllers.getAnswers)
+  .post(controllers.postAnswer)
+router
+  .route('/answers/helpful/:answer_id')
+  .put(controllers.helpfulAnswer)
+
+router
+  .route('/answers/report/:answer_id')
+  .put(controllers.reportAnswer)
 
 
   module.exports = router;
