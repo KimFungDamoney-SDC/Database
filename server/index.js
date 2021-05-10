@@ -8,14 +8,16 @@ const router = require('./router.js');
 const app = express();
 const PORT = 3030;
 
-app.use(express.urlencoded({extended: true}));
+// app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 app.use('/api', router);
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`)
+  })
+}
 
 module.exports = app

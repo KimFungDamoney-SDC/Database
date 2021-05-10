@@ -4,7 +4,7 @@
   "description": "system design capstone overwview",
   "main": "server/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "start": "nodemon server.index.js",
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
     "create-db": "psql -d sdcreviews -U naderdamouni < database/schema.sql"

@@ -1,4 +1,4 @@
-const client = require('../database/index.js')
+const db = require('../database/index.js')
 
 const controllers = {
   getAllReviews: (req, res) => {
@@ -7,12 +7,13 @@ const controllers = {
                          INNER JOIN photos
                          ON reviews.id = photos.review_id
                          WHERE product_id=${req.params.id}
-                         LIMIT 10`
-    client.query(queryString, (err, results) => {
+                         ORDER BY helpfulness DESC
+                         `
+    db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send(results);
+        res.status(200).send(results.rows);
       }
     });
   },
@@ -23,29 +24,28 @@ const controllers = {
                          INNER JOIN metadata
                          ON characteristics.product_id = metadata.product_id
                          WHERE review_id=${req.params.id}
-                         LIMIT 10`
-    client.query(queryString, (err, results) => {
+                         `
+    db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send(results);
+        res.status(200).send(results.rows);
       }
     });
   },
 
   postReviews: (req, res) => {
-    console.log(req.body)
     let { rating, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness } = req.body;
     const selectQuery = `SELECT pg_catalog.setval(pg_get_serial_sequence('reviews', 'id'), MAX(id)) FROM reviews`;
     const insertQuery = `INSERT INTO reviews (rating, summary, body, recommend, reported,
-                         reviewer_name, reviewer_email, response, helpfulness)
+                                              reviewer_name, reviewer_email, response, helpfulness)
                          VALUES (${rating}, '${summary}', '${body}', ${recommend}, ${reported},
                          '${reviewer_name}', '${reviewer_email}', '${response}', ${helpfulness})`;
-    client.query(selectQuery, (err, results) => {
+    db.query(selectQuery, (err, results) => {
       if (err) res.status(400).send(err);
-      client.query(insertQuery, (err, results) => {
-        if (err) res.status(400).send(err)
-        res.status(200).send(results)
+      db.query(insertQuery, (err, results) => {
+        if (err) res.status(400).send(err);
+        res.status(200).send(results);
       });
     });
   },
@@ -54,7 +54,7 @@ const controllers = {
     const queryString = `UPDATE reviews
                          SET helpfulness = ${req.body.helpfulness}
                          WHERE id=${req.params.review_id}`
-    client.query(queryString, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         res.status(404).send(err);
       } else {
@@ -67,7 +67,7 @@ const controllers = {
     const queryString = `UPDATE reviews
                          SET reported = ${req.body.reported}
                          WHERE id=${req.params.review_id}`
-    client.query(queryString, (err, results) => {
+    db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
       } else {
@@ -76,6 +76,5 @@ const controllers = {
     });
   }
 }
-
 
 module.exports = controllers;
