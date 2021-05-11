@@ -7,8 +7,7 @@ const controllers = {
                          INNER JOIN photos
                          ON reviews.id = photos.review_id
                          WHERE product_id=${req.params.id}
-                         ORDER BY helpfulness DESC
-                         `
+                         ORDER BY helpfulness DESC`;
     db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
@@ -23,13 +22,12 @@ const controllers = {
                          FROM characteristics
                          INNER JOIN metadata
                          ON characteristics.product_id = metadata.product_id
-                         WHERE review_id=${req.params.id}
-                         `
+                         WHERE review_id=${req.params.id}`;
     db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send(results.rows);
+        res.status(200).send(results);
       }
     });
   },
@@ -58,7 +56,7 @@ const controllers = {
       if (err) {
         res.status(404).send(err);
       } else {
-        res.status(200).send(results.rows);
+        res.status(200).send(results);
       }
     });
   },

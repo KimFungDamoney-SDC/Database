@@ -1,4 +1,4 @@
-const newrelic = require('../newrelic.js');
+require('newrelic');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');

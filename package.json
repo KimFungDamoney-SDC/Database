@@ -4,10 +4,11 @@
   "description": "system design capstone overwview",
   "main": "server/index.js",
   "scripts": {
-    "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "start": "nodemon server.index.js",
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
-    "create-db": "psql -d sdcreviews -U naderdamouni < database/schema.sql"
+    "create-db": "psql -d sdcreviews -U naderdamouni < database/schema.sql",
+    "stress-test": "artillery run test/stress.yml",
+    "jest-test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "morgan": "1.10.0",
     "mysql": "2.18.1",
     "mysql2": "2.2.5",
+    "newrelic": "^7.3.1",
     "nodemon": "2.0.7",
     "path": "0.12.7",
     "pg": "^8.6.0",

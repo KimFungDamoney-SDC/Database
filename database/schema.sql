@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS reviews;
 CREATE SEQUENCE reviews_sequence;
 
 CREATE TABLE reviews (
-  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   product_id INTEGER DEFAULT NULL,
   rating INTEGER DEFAULT NULL,
   created_at TIMESTAMP DEFAULT NULL,
@@ -23,6 +23,7 @@ CREATE TABLE reviews (
   response TEXT DEFAULT NULL,
   helpfulness INTEGER DEFAULT NULL
 );
+CREATE INDEX index_id ON reviews(product_id)
 
 DROP TABLE IF EXISTS photos;
 

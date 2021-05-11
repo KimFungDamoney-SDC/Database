@@ -12,7 +12,7 @@ router
 
 router
   .route('/reviews/helpful/:review_id')
-  .patch(controllers.updateHelpfulness)
+  .put(controllers.updateHelpfulness)
 
 router
   .route('/reviews/report/:review_id')
