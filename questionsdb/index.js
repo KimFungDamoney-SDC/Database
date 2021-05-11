@@ -62,6 +62,6 @@ const executeQuery = (tables) => {
   })
 }
 
-// executeQuery(tableArray);
+executeQuery(tableArray);
 
 module.exports = client;

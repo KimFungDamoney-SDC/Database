@@ -8,7 +8,8 @@
     "start": "nodemon server/index.js",
     "startdb": "node questionsdb/index.js",
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
-    "createdb": "psql -U postgres < ./questionsdb/questionsdb.sql"
+    "createdb": "psql -U postgres < ./questionsdb/questionsdb.sql",
+    "stresstest": "k6 run ./stresstest.js"
   },
   "repository": {
     "type": "git",
