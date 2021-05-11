@@ -113,30 +113,40 @@ app.get('/products', (req, response) => {
 
   const offset = (page - 1) * count;
   const offsetStr = offset ? `OFFSET ${offset}` : '' ;
-  console.log(`${offsetStr}`);
+
   client.query(`SELECT * from product LIMIT ${count} ${offsetStr}`, (err, res) => {
     if (err) console.log(err);
     response.send(res.rows);
   })
 });
+
 app.get('/products/:product_id', (req, res) => {
   let {product_id} = req.params;
-
+  console.time('product')
   client.query(`SELECT * from product WHERE id = ${product_id}`, (err, result) => {
     if (err) console.log(err);
     res.send(result.rows);
+    console.timeEnd('product');
   })
   //select json_build_object('feature', f.feature, 'value', f.value) from feature f WHERE product_id = 1;
 });
+
 app.get('/products/:product_id/styles', (req, res) => {
   let {product_id} = req.params;
-
+    //create index for product_id (OR separate map of id that corresponds to product_id)
   client.query(`SELECT * from styles WHERE product_id = ${product_id}`, (err, result) => {
+    if (err) res.send(err);
+    res.send(result.rows);
+    // client.query(`SELECT url, thumbnail_url from photos WHERE style_id = `)
+  })
+});
+app.get('/products/:product_id/related', (req, res) => {
+  let {product_id} = req.params;
+  client.query(`SELECT * from related WHERE current = ${product_id}`, (err, result) => {
     if (err) res.send(err);
     res.send(result.rows);
   })
 });
-// app.get('/products/:product_id/related');
 
 // router.route('/cart')
 //   .get() //200 ok

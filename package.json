@@ -7,7 +7,8 @@
     "test": "test",
     "start": "nodemon server.index.js",
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
-    "create-db": "psql sdc_products -U sueannkim < ./db_products/products_schema.sql"
+    "create-db": "psql sdc_products -U sueannkim < ./db_products/products_schema.sql",
+    "stress-test": "k6 run server/stressTest_products.js"
   },
   "repository": {
     "type": "git",

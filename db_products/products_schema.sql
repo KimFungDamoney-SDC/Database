@@ -7,10 +7,10 @@ CREATE DATABASE sdc_products;
 
 CREATE TABLE product (
   id SERIAL NOT NULL primary key,
-  name TEXT NOT NULL,
-  slogan TEXT,
-  description TEXT,
-  category TEXT NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  slogan VARCHAR,
+  description VARCHAR,
+  category VARCHAR(50) NOT NULL,
   default_price DECIMAL(10, 2) NOT NULL
 );
 
