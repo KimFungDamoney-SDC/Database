@@ -51,7 +51,7 @@ app.use(morgan('dev'));
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 });
-//http://ec2-18-144-89-114.us-west-1.compute.amazonaws.com
+
 const client = new Client({
   host: 'localhost',
   port: 5432,
@@ -92,7 +92,7 @@ const executeQuery = (tables) => {
 
       console.time(`${entry.table}`); // console time
       console.time(`copy ${entry.table}`)
-      fileStream.pipe(stream);
+      fileStream.pipe(copyStream);
 
       fileStream.on('error', (error) => {
         console.log(`Error reading file: ${entry.table}`);
