@@ -4,11 +4,12 @@
   "description": "system design capstone overwview",
   "main": "server/index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --forceExit --detectOpenHandles --watchAll --maxWorkers=1",
     "start": "nodemon server.index.js",
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
     "create-db": "psql sdc_products -U sueannkim < ./db_products/products_schema.sql",
-    "stress-test": "k6 run server/stressTest_products.js"
+    "stress-test": "k6 run server/stressTest_products.js",
+    "db-products": "sudo -u sueannkim psql < ./db_products/products_schema.sql"
   },
   "repository": {
     "type": "git",
