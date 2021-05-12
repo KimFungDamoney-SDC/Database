@@ -53,7 +53,7 @@ app.listen(PORT, () => {
 });
 
 const client = new Client({
-  host: 'localhost',
+  host: 'http://ec2-18-144-89-114.us-west-1.compute.amazonaws.com/',
   port: 5432,
   database: 'sdc_products',
   user: 'sueannkim',
@@ -106,7 +106,7 @@ const executeQuery = (tables) => {
 }
 
 
-//executeQuery(tables);
+executeQuery(tables);
 app.get('/products', (req, response) => {
   let page = req.query.page || 1;
   let count = req.query.count || 5;
