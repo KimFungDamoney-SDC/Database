@@ -9,7 +9,7 @@
     "react-dev": "webpack --config ./webpack.config.js --mode development -w",
     "create-db": "psql sdc_products -U sueannkim < ./db_products/products_schema.sql",
     "stress-test": "k6 run server/stressTest_products.js",
-    "db-products": "sudo -u sueannkim psql < ./db_products/products_schema.sql"
+    "db-products": "sudo -u ubuntu psql < ./db_products/products_schema.sql"
   },
   "repository": {
     "type": "git",
