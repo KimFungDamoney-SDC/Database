@@ -28,7 +28,7 @@ const tables = [
     table: 'photos',
     path: path.join(__dirname, '../db_products/photos.csv'),
     cmd: `COPY photos FROM STDIN DELIMITER ',' CSV HEADER`
-  }
+  },
   {
     table: 'feature',
     path: path.join(__dirname, '../db_products/features.csv'),
