@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const { Pool, Client, Query } = require('pg');
 const copyFrom = require('pg-copy-streams').from;
-const csv = require('csv-parser');
 // const productRoutes = require('./productRoutes.js');
 const router = require('express').Router();
 
@@ -29,7 +28,7 @@ const tables = [
     table: 'photos',
     path: path.join(__dirname, '../db_products/photos.csv'),
     cmd: `COPY photos FROM STDIN DELIMITER ',' CSV HEADER`
-  },
+  }
   {
     table: 'feature',
     path: path.join(__dirname, '../db_products/features.csv'),
@@ -39,7 +38,8 @@ const tables = [
     table: 'related',
     path: path.join(__dirname, '../db_products/related.csv'),
     cmd: `COPY related FROM STDIN DELIMITER ',' CSV HEADER`
-  }];
+  }
+];
 
 const app = express();
 const PORT = 3000;
@@ -51,9 +51,9 @@ app.use(morgan('dev'));
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 });
-
+//http://ec2-18-144-89-114.us-west-1.compute.amazonaws.com
 const client = new Client({
-  host: 'http://ec2-18-144-89-114.us-west-1.compute.amazonaws.com/',
+  host: 'localhost',
   port: 5432,
   database: 'sdc_products',
   user: 'sueannkim',
@@ -67,6 +67,8 @@ client.connect(err => {
     console.log('connected to Database!')
   }
 });
+
+const result = [];
 
 const executeQuery = (tables) => {
   const execute = (target, callback) => {
@@ -85,28 +87,34 @@ const executeQuery = (tables) => {
     execute(entry.table, (err) => {
       if(err) return console.log(err);
 
-      const stream = client.query(copyFrom(`${entry.cmd}`));
       const fileStream = fs.createReadStream(`${entry.path}`);
+      const copyStream = client.query(copyFrom(`${entry.cmd}`));
 
-      console.time(`${entry.table}`);
+      console.time(`${entry.table}`); // console time
+      console.time(`copy ${entry.table}`)
+      fileStream.pipe(stream);
 
-      fileStream.pipe(stream)
-      fileStream.on('end', () => {
-        console.log(`Completed loading data into ${entry.table}`);
-        console.timeEnd(`${entry.table}`);
-      })
-      stream.on('error', (error) => {
-        console.log(`Error during copying: ${error}`)
-      })
       fileStream.on('error', (error) => {
-        console.log(`Error loading to table: ${entry.table}`)
+        console.log(`Error reading file: ${entry.table}`);
+      })
+      copyStream.on('error', (error) => {
+        console.log(`Error during copying: ${error}`);
+      })
+      fileStream.on('end', () => {
+        console.log(`Completed reading stream ${entry.table}`);
+        console.timeEnd(`${entry.table}`); //console time
+      })
+      copyStream.on('end', () => {
+        console.log('completed copying into' + `${entry.table}`);
+        console.time(`copy ${entry.table}`);
+        client.query(`CREATE INDEX idx_${entry.table}_productID ON ${entry.table}(product_id)`)
       })
     })
   })
 }
 
-
 executeQuery(tables);
+
 app.get('/products', (req, response) => {
   let page = req.query.page || 1;
   let count = req.query.count || 5;
