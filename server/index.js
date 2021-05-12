@@ -107,7 +107,12 @@ const executeQuery = (tables) => {
       copyStream.on('end', () => {
         console.log('completed copying into' + `${entry.table}`);
         console.time(`copy ${entry.table}`);
-        client.query(`CREATE INDEX idx_${entry.table}_productID ON ${entry.table}(product_id)`)
+        if (`${entry.table}` !== 'product') {
+          client.query(`CREATE INDEX idx_${entry.table}_productID ON ${entry.table}(product_id)`, (err, result) => {
+            if(err) return console.log(err);
+            console.log(`created product index at ${entry.table}:`, result);
+          })
+        }
       })
     })
   })
