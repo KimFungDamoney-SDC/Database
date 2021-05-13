@@ -58,7 +58,7 @@ CREATE TABLE feature (
 );
 
 CREATE TABLE related (
-  id SERIAL NOT NULL primary key,
+  id SERIAL NOT NULL,
   current int REFERENCES product,
   related int
 );

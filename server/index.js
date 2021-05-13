@@ -68,7 +68,15 @@ client.connect(err => {
   }
 });
 
-const result = [];
+const createIndex = [
+  {name: 'styles', col: 'product_id'},
+  {name: 'sku', col: 'style_id'},
+  {name: 'transactions_sku', col: 'sku_id'},
+  {name: 'transactions', col: 'tsku_id'},
+  {name: 'photos', col: 'style_id'},
+  {name: 'feature', col: 'product_id'},
+  {name: 'related', col: 'current'}
+];
 
 const executeQuery = (tables) => {
   const execute = (target, callback) => {
@@ -83,7 +91,7 @@ const executeQuery = (tables) => {
       }
     });
   }
-  tables.forEach((entry) => {
+  tables.forEach((entry, index) => {
     execute(entry.table, (err) => {
       if(err) return console.log(err);
 
@@ -92,6 +100,7 @@ const executeQuery = (tables) => {
 
       console.time(`${entry.table}`); // console time
       console.time(`copy ${entry.table}`)
+
       fileStream.pipe(copyStream);
 
       fileStream.on('error', (error) => {
@@ -103,17 +112,20 @@ const executeQuery = (tables) => {
       fileStream.on('end', () => {
         console.log(`Completed reading stream ${entry.table}`);
         console.timeEnd(`${entry.table}`); //console time
-      })
-      copyStream.on('end', () => {
-        console.log('completed copying into' + `${entry.table}`);
-        console.time(`copy ${entry.table}`);
-        if (`${entry.table}` !== 'product') {
-          client.query(`CREATE INDEX idx_${entry.table}_productID ON ${entry.table}(product_id)`, (err, result) => {
+        console.timeEnd(`copy ${entry.table}`);
+
+        let tableNameInd = createIndex[index + 1].name;
+        let colNameInd = createIndex[index + 1].col;
+
+        if (`${entry.table}` === tableNameInd) {
+          client.query(`CREATE INDEX idx_${entry.table}_${colNameInd} ON ${entry.table}(${colNameInd})`, (err, result) => {
             if(err) return console.log(err);
             console.log(`created product index at ${entry.table}:`, result);
           })
         }
+
       })
+
     })
   })
 }
