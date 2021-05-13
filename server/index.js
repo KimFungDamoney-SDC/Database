@@ -42,7 +42,7 @@ const tables = [
 ];
 
 const app = express();
-const PORT = 3000;
+const PORT = 3030;
 
 app.use(express.json());
 app.use(cors());
@@ -125,7 +125,10 @@ const executeQuery = (tables) => {
         }
 
       })
-
+      copyStream.on('end', () => {
+        console.log(`Completed loading data into ${entry.table}`)
+        client.end()
+      })
     })
   })
 }
@@ -150,6 +153,8 @@ app.get('/products/:product_id', (req, res) => {
   console.time('product')
   client.query(`SELECT * from product WHERE id = ${product_id}`, (err, result) => {
     if (err) console.log(err);
+    let result = result.rows;
+
     res.send(result.rows);
     console.timeEnd('product');
   })
