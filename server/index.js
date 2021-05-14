@@ -8,7 +8,6 @@ const copyFrom = require('pg-copy-streams').from;
 // const productRoutes = require('./productRoutes.js');
 const router = require('express').Router();
 const csv = require('csv-parser');
-const verification = require('../loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7.txt');
 
 const tables = [
   {
