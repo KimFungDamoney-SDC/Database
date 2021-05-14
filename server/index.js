@@ -195,7 +195,7 @@ app.get('/products/:product_id/related', (req, res) => {
 });
 
 app.get('/loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7/', (req, res) => {
-  res.send('d1db9070dedd1db1f1b6bbc8d04b53b0ed604c96');
+  res.send('loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7');
 })
 
 // router.route('/cart')
