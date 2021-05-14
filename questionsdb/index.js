@@ -31,6 +31,35 @@ client.connect((err) => {
 const dataArray = [questionsData, answersData, photosData];
 const tableArray = [questions, answers, photos];
 
+// const executeQuery1 = (targetTable) => {
+//   const execute = (target, callback) => {
+//     client.query(`Truncate ${target}`, (err) => {
+//       if (err) {
+//         client.end()
+//         callback(err)
+//       } else {
+//         console.log(`Truncated ${target}`)
+//         callback(null, target)
+//       }
+//     })
+//   }
+//   execute(targetTable, (err) => {
+//     if (err) return console.log(err);
+//     var stream = client.query(copyFrom(`Copy ${targetTable} FROM STDIN WITH CSV HEADER`));
+//     var fileStream = fs.createReadStream(dataArray[1]);
+//     fileStream.pipe(stream)
+//     fileStream.on('end', () => {
+//       console.log(`Completed loading data into ${table}`)
+//     })
+//     fileStream.on('error', (error) => {
+//       console.log(error)
+//     })
+//     stream.on('error', (error) => {
+//       console.log(error)
+//     })
+//   })
+// }
+
 const executeQuery = (tables) => {
   const execute = (target, callback) => {
     client.query(`Truncate ${target}`, (err) => {
@@ -62,6 +91,6 @@ const executeQuery = (tables) => {
   })
 }
 
-executeQuery(tableArray);
+// executeQuery(tableArray);
 
 module.exports = client;
