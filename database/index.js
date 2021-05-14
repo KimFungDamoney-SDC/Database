@@ -32,7 +32,6 @@ client.connect((err) => {
 });
 
 const executeQuery = (tables) => {
-  console.time('Execute Query')
   const execute = (target, callback) => {
     client.query(`Truncate ${target}`, (err) => {
       if (err) {
@@ -57,12 +56,11 @@ const executeQuery = (tables) => {
       })
       fileStream.on('end', () => {
         console.log(`Completed loading data into ${table}`);
-        console.timeEnd('End Execute Query')
       })
       fileStream.pipe(stream);
     })
   })
 }
-  executeQuery(tableArray);
+  // executeQuery(tableArray);
 
 module.exports = client;

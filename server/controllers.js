@@ -5,9 +5,9 @@ const controllers = {
     const queryString = `SELECT *
                          FROM reviews
                          INNER JOIN photos
-                         ON reviews.id = photos.review_id
+                         ON reviews.id=photos.review_id
                          WHERE product_id=${req.params.id}
-                         ORDER BY helpfulness DESC`;
+                         LIMIT 1`;
     db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);

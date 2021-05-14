@@ -8,5 +8,5 @@ config:
       x-my-service-auth: '987401838271002188298567'
 scenarios:
   - flow:
-    - put:
-        url: "/api/reviews/report/1"
+    - get:
+        url: "/api/reviews/1"

@@ -20,4 +20,9 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
+app.get('/loaderio-a87505a76d0a26b126a38e85d73f9366', (req, res) => {
+  console.log('Hello World')
+  res.send('loaderio-a87505a76d0a26b126a38e85d73f9366');
+})
+
 module.exports = app
