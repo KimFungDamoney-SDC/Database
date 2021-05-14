@@ -8,7 +8,7 @@ const copyFrom = require('pg-copy-streams').from;
 // const productRoutes = require('./productRoutes.js');
 const router = require('express').Router();
 const csv = require('csv-parser');
-const verification = require('./loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7.txt');
+const verification = require('../loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7.txt');
 
 const tables = [
   {
@@ -196,7 +196,7 @@ app.get('/products/:product_id/related', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send(verification);
+  res.send('verification');
 })
 
 // router.route('/cart')
