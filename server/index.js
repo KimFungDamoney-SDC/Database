@@ -145,7 +145,7 @@ app.get('/products', (req, response) => {
 
 app.get('/products/:product_id', (req, res) => {
   let {product_id} = req.params;
-  console.time('product')
+  console.time('get product')
   client.query(`SELECT * from product WHERE id = ${product_id}`, (err, result) => {
     if (err) console.log(err);
     let resultToChange = result.rows[0];
@@ -155,7 +155,7 @@ app.get('/products/:product_id', (req, res) => {
       rows.forEach(feature =>
         resultToChange.features.push(feature.json_build_object));
       res.send(resultToChange);
-      console.timeEnd('product');
+      console.timeEnd('get product');
     })
   })
 
@@ -167,6 +167,7 @@ app.get('/products/:product_id/styles', (req, res) => {
 
   client.query(`SELECT * from styles WHERE product_id = ${product_id}`, (err, result) => {
     if (err) res.send(err);
+    console.time('get styles')
     let styles = result.rows;
     styles.forEach((item, ind) => {
       item.photos = [];
@@ -175,7 +176,7 @@ app.get('/products/:product_id/styles', (req, res) => {
         item.photos = item.photos.concat(photoResult.rows);
         if (ind === styles.length -1) {
           res.send(styles);
-          console.timeEnd('styles')
+          console.timeEnd('get styles')
         }
       })
     })
