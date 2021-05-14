@@ -7,12 +7,13 @@ const { Pool, Client, Query } = require('pg');
 const copyFrom = require('pg-copy-streams').from;
 // const productRoutes = require('./productRoutes.js');
 const router = require('express').Router();
+const csv = require('csv-parser');
 
 const tables = [
   {
     table : 'product',
     path : path.join(__dirname, '../db_products/product.csv'),
-    cmd: `COPY product FROM STDIN DELIMITER ',' CSV HEADER`
+    cmd: `COPY product FROM STDIN WITH (FORMAT CSV, HEADER)`
   },
   {
     table: 'styles',
@@ -53,7 +54,7 @@ app.listen(PORT, () => {
 });
 
 const client = new Client({
-  host: 'localhost',
+  host: 'ec2-204-236-163-202.us-west-1.compute.amazonaws.com',
   port: 5432,
   database: 'sdc_products',
   user: 'sueannkim',
@@ -71,8 +72,6 @@ client.connect(err => {
 const createIndex = [
   {name: 'styles', col: 'product_id'},
   {name: 'sku', col: 'style_id'},
-  {name: 'transactions_sku', col: 'sku_id'},
-  {name: 'transactions', col: 'tsku_id'},
   {name: 'photos', col: 'style_id'},
   {name: 'feature', col: 'product_id'},
   {name: 'related', col: 'current'}
@@ -93,7 +92,7 @@ const executeQuery = (tables) => {
   }
   tables.forEach((entry, index) => {
     execute(entry.table, (err) => {
-      if(err) return console.log(err);
+      if(err) console.log(err);
 
       const fileStream = fs.createReadStream(`${entry.path}`);
       const copyStream = client.query(copyFrom(`${entry.cmd}`));
@@ -119,21 +118,17 @@ const executeQuery = (tables) => {
 
         if (`${entry.table}` === tableNameInd) {
           client.query(`CREATE INDEX idx_${entry.table}_${colNameInd} ON ${entry.table}(${colNameInd})`, (err, result) => {
-            if(err) return console.log(err);
+            if(err) console.log(err);
             console.log(`created product index at ${entry.table}:`, result);
           })
         }
 
       })
-      copyStream.on('end', () => {
-        console.log(`Completed loading data into ${entry.table}`)
-        client.end()
-      })
     })
   })
 }
 
-executeQuery(tables);
+// executeQuery(tables);
 
 app.get('/products', (req, response) => {
   let page = req.query.page || 1;
@@ -153,28 +148,49 @@ app.get('/products/:product_id', (req, res) => {
   console.time('product')
   client.query(`SELECT * from product WHERE id = ${product_id}`, (err, result) => {
     if (err) console.log(err);
-    let result = result.rows;
+    let resultToChange = result.rows[0];
 
-    res.send(result.rows);
-    console.timeEnd('product');
+    client.query(`select json_build_object('feature', f.feature, 'value', f.value) from feature f WHERE product_id = ${product_id}`, (err, {rows}) => {
+      resultToChange.features = [];
+      rows.forEach(feature =>
+        resultToChange.features.push(feature.json_build_object));
+      res.send(resultToChange);
+      console.timeEnd('product');
+    })
   })
-  //select json_build_object('feature', f.feature, 'value', f.value) from feature f WHERE product_id = 1;
+
 });
 
 app.get('/products/:product_id/styles', (req, res) => {
   let {product_id} = req.params;
-    //create index for product_id (OR separate map of id that corresponds to product_id)
+  console.time('styles');
+
   client.query(`SELECT * from styles WHERE product_id = ${product_id}`, (err, result) => {
     if (err) res.send(err);
-    res.send(result.rows);
-    // client.query(`SELECT url, thumbnail_url from photos WHERE style_id = `)
+    let styles = result.rows;
+    styles.forEach((item, ind) => {
+      item.photos = [];
+      client.query(`SELECT url, thumbnail_url from photos WHERE style_id = ${item.id}`, (err, photoResult) => {
+        if (err) console.log(err)
+        item.photos = item.photos.concat(photoResult.rows);
+        if (ind === styles.length -1) {
+          res.send(styles);
+          console.timeEnd('styles')
+        }
+      })
+    })
   })
 });
+
 app.get('/products/:product_id/related', (req, res) => {
   let {product_id} = req.params;
   client.query(`SELECT * from related WHERE current = ${product_id}`, (err, result) => {
     if (err) res.send(err);
-    res.send(result.rows);
+    let finalResult = [];
+    result.rows.forEach(item => {
+      finalResult.push(item.related)
+    });
+    res.send(finalResult);
   })
 });
 
