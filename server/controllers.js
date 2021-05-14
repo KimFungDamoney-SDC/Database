@@ -6,8 +6,7 @@ const controllers = {
                          FROM reviews
                          INNER JOIN photos
                          ON reviews.id=photos.review_id
-                         WHERE product_id=${req.params.id}
-                         LIMIT 1`;
+                         WHERE product_id=${req.params.id}`;
     db.query(queryString, (err, results) => {
       if (err) {
         res.status(400).send(err);
