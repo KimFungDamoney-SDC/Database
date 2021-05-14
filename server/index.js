@@ -12,11 +12,7 @@ app.use(morgan('dev'));
 app.use('/api', router);
 
 app.get('/loaderio-49e67f5cc4f16b8e9bd1eaf2cb441517', (req, res) => {
-  if (err) {
-    res.status(404).send(err)
-  } else {
-    res.status(200).send('loaderio-49e67f5cc4f16b8e9bd1eaf2cb441517')
-  }
+  res.send('loaderio-49e67f5cc4f16b8e9bd1eaf2cb441517')
 })
 
 app.listen(PORT, () => {
