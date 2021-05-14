@@ -194,8 +194,8 @@ app.get('/products/:product_id/related', (req, res) => {
   })
 });
 
-app.get('/', (req, res) => {
-  res.send('verification');
+app.get('/loaderio-a3f5e03fd5bfbdc801e89ce77236e5b7/', (req, res) => {
+  res.send('verified');
 })
 
 // router.route('/cart')
