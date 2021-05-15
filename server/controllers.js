@@ -12,7 +12,7 @@ const controllers = {
       console.log('Inide Query Callback')
       if (err) {
         res.status(400).send(err);
-        console.log(('Error case'))
+        console.log('Error case')
       } else {
         res.status(200).send(results.rows);
         console.log('SENT')
