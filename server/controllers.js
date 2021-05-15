@@ -2,20 +2,16 @@ const db = require('../database/index.js')
 
 const controllers = {
   getAllReviews: (req, res) => {
-    console.log('First Hello World')
     const queryString = `SELECT *
                          FROM reviews
                          INNER JOIN photos
                          ON reviews.id=photos.review_id
                          WHERE product_id=${req.params.id}`;
     db.query(queryString, (err, results) => {
-      console.log('Inide Query Callback')
       if (err) {
         res.status(400).send(err);
-        console.log('Error case')
       } else {
         res.status(200).send(results.rows);
-        console.log('SENT')
       }
     });
   },
