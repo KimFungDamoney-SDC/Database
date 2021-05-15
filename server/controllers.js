@@ -7,7 +7,7 @@ const controllers = {
                          FROM reviews
                          INNER JOIN photos
                          ON reviews.id=photos.review_id
-                         LIMIT 10`;
+                         WHERE product_id=${req.params.id}`;
     db.query(queryString, (err, results) => {
       console.log('Inide Query Callback')
       if (err) {
