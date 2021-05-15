@@ -1,5 +1,5 @@
 {
-  "host": "localhost",
+  "host": "ec2-3-140-206-19.us-east-2.compute.amazonaws.com",
   "user": "naderdamouni",
   "pw": "Sawyer22@",
   "db": "sdcreviews",
