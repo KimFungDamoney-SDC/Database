@@ -2,6 +2,7 @@ const db = require('../database/index.js')
 
 const controllers = {
   getAllReviews: (req, res) => {
+    console.log('Hello World')
     const queryString = `SELECT *
                          FROM reviews
                          INNER JOIN photos
