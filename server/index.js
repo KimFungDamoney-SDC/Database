@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-app.get('/loaderio-75338c02315038690e99646d85603cc8', (req, res) => {
+app.get('/loaderio-75338c02315038690e99646d85603cc8/', (req, res) => {
   console.log('Hello World')
   res.send('loaderio-75338c02315038690e99646d85603cc8');
 })
