@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "user": "naderdamouni",
+  "user": "postgres",
   "pw": "Sawyer22@",
   "db": "sdcreviews",
   "port": 5432
