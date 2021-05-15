@@ -1,5 +1,5 @@
 {
-  "host": "ec2-3-140-206-19.us-east-2.compute.amazonaws.com",
+  "host": "3.140.206.19",
   "user": "naderdamouni",
   "pw": "Sawyer22@",
   "db": "sdcreviews",
