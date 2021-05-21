@@ -12,3 +12,7 @@ app.use(morgan('dev'));
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
+
+app.get('/loaderio-861f6c07148a8d3232762406c849ffcf.txt', (req, res) => {
+  res.send('loaderio-861f6c07148a8d3232762406c849ffcf');
+})
