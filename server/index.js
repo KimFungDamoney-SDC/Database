@@ -102,6 +102,9 @@ app.get('/loaderio-d386834c0339b7c4ffe3f2c6c9a33d95.txt', (req, res) => {
   res.send('loaderio-d386834c0339b7c4ffe3f2c6c9a33d95');
 })
 
+app.get('loaderio-4359158a7f33d70a989baa93a442e894.txt', (req, res) => {
+  res.send('loaderio-4359158a7f33d70a989baa93a442e894');
+})
 // router.route('/cart')
 //   .get() //200 ok
 //   .post(); //201 created sku_id: qty
