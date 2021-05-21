@@ -13,6 +13,6 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
 
-app.get('/loaderio-861f6c07148a8d3232762406c849ffcf.txt', (req, res) => {
-  res.send('loaderio-861f6c07148a8d3232762406c849ffcf');
+app.get('/loaderio-8cc35a713042004f4c55e85cb31f2295.txt', (req, res) => {
+  res.send('loaderio-8cc35a713042004f4c55e85cb31f2295');
 })
