@@ -7,3 +7,4 @@ characteristics.csv
 characteristic_reviews.csv
 .vscode
 newrelic_agent.log
+newrelic.js
